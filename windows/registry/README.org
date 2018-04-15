@@ -1,0 +1,103 @@
+#+TITLE: Windows key mappings for Emacs
+#+OPTIONS: num:nil
+
+* About
+
+This windows registry entry maps the control keys in such a way that
+the (in Emacs) often-used =Ctrl= key comes to lie right next to the
+space bar and the =Alt= key right next to it, to the right and the
+left of the space bar. This way, there is symmetry in using those keys
+with the right and the left hand, and =Ctrl= can be pressed by curling
+your thumb.
+
+Because the original left =Ctrl= key is left in place, most Windows
+key combinations work like usual. If you're switching between Windows
+and Mac, you can configure a similar mapping in macOS's Keyboard
+Settings, having =Cmd= in the same location as =Ctrl= on Windows.  In
+effect, this allows you to type the same physical keys for
+combinations like =Ctrl-V= and =Cmd-V= on both systems.
+
+The =App= key now serves as a =AltRight= key, making key combinations
+for international characters accessible when using the
+/US-International/ or German keyboard layout, for example. Finally,
+the right =Ctrl= key becomes the =Win= key. Be aware that some laptop
+keyboards might not have a right =Ctrl= key, preventing the use of the
+=Win-L= combination to lock your screen, for example.
+
+** Caveats
+
+- the changes only take effect after a reboot
+- all users of the computer are affected by these changes
+- =Ctrl-Alt-Delete= works differently because of the changed location
+  of the =Alt= key (might upset IT staff)
+- =Win= combinations (e.g. =Win-L= to lock screen) now use the right
+  =Ctrl= key
+- =App= key is disabled
+- =CAPS= is disabled
+- =AltRight= (e.g. for US-Intl key combinations), or =AltGr= in ISO
+  layouts, is now the key labeled =App=
+
+* Registry Entry
+
+The key mappings are done on a low system level using the Windows scan
+code mapper, so no additional drivers are needed.
+
+** Registry Entry file
+
+[[./KeyMapping.reg][Download]] the =.reg= file (or copy the text below into an appropriate
+file) and run it (i.e. merge it with your local registry).
+
+#+BEGIN_EXAMPLE
+  Windows Registry Editor Version 5.00
+
+  [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+  "Scancode Map"=hex:00,00,00,00,00,00,00,00,07,00,00,00,38,00,5b,e0,1d,00,38,00,1d,e0,38,e0,38,00,5c,e0,38,e0,5d,e0,5b,e0,1d,e0,00,00,00,00
+#+END_EXAMPLE
+
+This [[https://msdn.microsoft.com/en-us/library/windows/hardware/jj128267(v=vs.85).aspx#scan_code_mapper_for_keyboards][MSDN article]] explains the configuration of the scan code
+mapper. A scan code table can be found [[http://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/translate.pdf][here]] (take the "PS/2 Set 1
+Make" column).
+
+For reference, these are the mappings used in the registy entry, in
+the order they occur in the entry's byte sequence:
+
+| Pos | from        | Scan code | to          | Scan code |
+|-----+-------------+-----------+-------------+-----------|
+|  1. | =WinLeft=   | ~5b e0~   | =AltLeft=   | ~38 00~   |
+|  2. | =AltLeft=   | ~38 00~   | =CtrlLeft=  | ~1d 00~   |
+|  3. | =AltRight=  | ~38 e0~   | =CtrlRight= | ~1d e0~   |
+|  4. | =WinRight=  | ~5c e0~   | =AltLeft=   | ~38 00~   |
+|  5. | =App=       | ~5d e0~   | =AltRight=  | ~38 e0~   |
+|  6. | =CtrlRight= | ~1d e0~   | =WinLeft=   | ~5b e0~   |
+
+*** CAPS to Control
+
+If you rather want the =CAPS= key to be mapped to =CtrlLeft=, the
+first mapping entry should be like this (take [[KeyMapping-CapsToCtrl.reg][this .reg file]]):
+
+| Pos | from        | Scan code | to          | Scan code |
+|-----+-------------+-----------+-------------+-----------|
+|  7. | =CAPS=      | ~3a 00~   | =CtrlLeft=  | ~1d 00~   |
+
+*** CAPS to "Europe 2" key
+
+[[KeyMapping-CapsToSC56.reg][This .reg file]] maps the =CAPS= key to the key found to the right of
+the =ShiftLeft= key on ISO keyboards found in Europe (usually with 105
+keys). Microsoft calls this key =Europe 2= in the scan code table
+linked above. This key can be used as an additional dead key (see my
+[[../klc/usdead56][usdead56]] keyboard layout, for example).
+
+| Pos | from        | Scan code | to          | Scan code |
+|-----+-------------+-----------+-------------+-----------|
+|  7. | =CAPS=      | ~3a 00~   | =Europe 2=  | ~56 00~   |
+
+** Remove keyboard mappings
+
+Remove all scan code mappings with [[./RemoveKeyMapping.reg][this]] entry:
+
+#+BEGIN_EXAMPLE
+  Windows Registry Editor Version 5.00
+
+  [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+  "Scancode Map"=-
+#+END_EXAMPLE
