@@ -1,0 +1,23 @@
+// Mapping:
+// - Ctrl is mapped to the Alt keys and the left Ctrl key
+// - Alt to the Win keys
+// - Win to the right Ctrl key
+// - Level3 to the Menu key
+// - Group switch to Shift+Menu
+//
+// This is a modified combination of altwin:ctrl_alt_win, level3:menu_switch
+partial modifier_keys
+xkb_symbols "ctrl_alt_win_menu" {
+    key <LALT> { [ Control_L, Control_L  ] };
+    replace key <RALT> { [ Control_R ], [ Control_R ] };
+    key <LWIN> { [ Alt_L, Meta_L ] };
+    key <RWIN> { [ Alt_R, Meta_R ] };
+    key <LCTL> { [ Control_L ] };
+    key <RCTL> { [ Super_L ] };
+    replace key <MENU> { [ ISO_Level3_Shift, ISO_Next_Group ], [ ISO_Level3_Shift, ISO_Next_Group ] };
+    replace key <LVL3> { [ ISO_Level3_Shift ] };
+    modifier_map Control { <RALT>, <LALT> };
+    modifier_map Mod1 { <LWIN>, <RWIN> };
+    modifier_map Mod4 { <RCTL> };
+    modifier_map Mod5 { <LVL3> };
+};
