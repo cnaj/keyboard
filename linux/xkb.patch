@@ -1,0 +1,27 @@
+diff --color -u -r orig/xkb/rules/evdev new/xkb/rules/evdev
+--- orig/xkb/rules/evdev	2021-03-19 15:36:24.435197499 +0100
++++ new/xkb/rules/evdev	2021-03-19 15:31:01.233889725 +0100
+@@ -1144,7 +1144,6 @@
+   lv5:lwin_switch_lock_cancel     =       +level5(lwin_switch_lock_cancel)
+   lv5:rwin_switch_lock_cancel     =       +level5(rwin_switch_lock_cancel)
+   parens:swap_brackets   =   +parens(swap_brackets)
+-  mysymbols:ctrl_alt_win_menu  =  +mysymbols(ctrl_alt_win_menu)
+ 
+ 
+ ! option	=	compat
+diff --color -u -r orig/xkb/rules/evdev.xml new/xkb/rules/evdev.xml
+--- orig/xkb/rules/evdev.xml	2021-03-19 15:36:24.435197499 +0100
++++ new/xkb/rules/evdev.xml	2021-03-19 15:31:07.998154241 +0100
+@@ -7080,12 +7080,6 @@
+           <description>Win is mapped to PrtSc and the usual Win</description>
+         </configItem>
+       </option>
+-      <option>
+-        <configItem>
+-          <name>mysymbols:ctrl_alt_win_menu</name>
+-          <description>A modified combination of altwin:ctrl_alt_win, level3:menu_switch</description>
+-        </configItem>
+-      </option>
+     </group>
+     <group allowMultipleSelection="true">
+       <!-- Tweaking the position of the "Compose" key: mapping to existing PC keys -->
