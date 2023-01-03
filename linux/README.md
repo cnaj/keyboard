@@ -11,5 +11,5 @@ patch -p2 < PATH-TO/xkb.patch
 - To activate in Gnome, perform the following command:
 
 ```
-gsettings set org.gnome.desktop.input-sources xkb-options ['mysymbols:ctrl_alt_win_menu']
+gsettings set org.gnome.desktop.input-sources xkb-options "['mysymbols:ctrl_alt_win_menu']"
 ```

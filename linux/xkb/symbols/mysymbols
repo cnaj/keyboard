@@ -8,6 +8,7 @@
 // This is a modified combination of altwin:ctrl_alt_win, level3:menu_switch
 partial modifier_keys
 xkb_symbols "ctrl_alt_win_menu" {
+    include "level3(ralt_alt)"
     key <LALT> { [ Control_L, Control_L  ] };
     key <RALT> { type[Group1] = "TWO_LEVEL",
                  symbols[Group1] = [ Control_R, Control_R ] };
